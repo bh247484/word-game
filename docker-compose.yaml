@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:15.2
+    env_file:
+      - ./pg.env
+    volumes:
+      - ./psql-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+  nextjs-app:
+    container_name: nextjs-app
+    ports:
+      - '3000:3000'
+    build:
+      context: ./nextjs-app
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./nextjs-app:/app
+      - /app/node_modules
+      - /app/.next
+  asp-api:
+    container_name: asp-api
+    build:
+      context: ./asp-api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./asp-api:/app
+    ports:
+      - '5000:5000'
+      - '5001:5001'
