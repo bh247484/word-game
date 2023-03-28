@@ -1,11 +1,14 @@
+import { IBlock } from "../types/types";
+
 interface IProps {
   id: string;
-  letter: string;
+  block: IBlock;
 }
 
-export default function Block({ letter, id }: IProps) {
+export default function Block({ block: { letter, queued }, id }: IProps) {
+  const classes = 'letter-block' + ( queued ? ' queued' : '' );
   return (
-    <div className="letter-block" id={id}>
+    <div className={classes} id={id}>
       {letter}
     </div>
   );
