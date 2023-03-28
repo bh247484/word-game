@@ -1,16 +1,18 @@
-import LetterBlock from "./letter-block";
+import Block from "./block";
 
 interface IProps {
+  id: string;
   letters: string[];
 }
 
-export default function LetterColumn({ letters }: IProps) {
+export default function Column({ letters, id }: IProps) {
   return (
-    <div className="letter-column">
+    <div className="letter-column" id={id}>
       {
         letters.map((letter: string, index) => (
-          <LetterBlock
+          <Block
             key={index}
+            id={`${id}${index.toString()}`}
             letter={letter}
           />
         ))

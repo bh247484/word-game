@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 import binSearch from './searchAlgo/binSearch';
 import { randomLetter } from './randGen/randGen'
-import LetterGrid from './components/letter-grid';
+import Grid from './components/grid';
 
 
 export default function Home() {
@@ -50,7 +50,7 @@ export default function Home() {
         }}
       />
       <button onClick={submitWord}>Try</button>
-      <LetterGrid
+      <Grid
         columns={columns}
       />
     </div>
