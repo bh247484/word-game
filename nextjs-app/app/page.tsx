@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import styles from './page.module.css';
-import binSearch from './searchAlgo/binSearch';
-import { randomLetter } from './randGen/randGen'
+import binSearch from './methods/searchAlgo/binSearch';
+import { randomLetter } from './methods/randGen/randGen'
 import Grid from './components/grid';
 import { IBlock } from './types/types';
 
