@@ -6,45 +6,54 @@ import binSearch from './methods/searchAlgo/binSearch';
 import { randomLetter } from './methods/randGen/randGen'
 import Grid from './components/grid';
 import { IBlock } from './types/types';
+import { dequeueBlocks, removeQueue } from './methods/helpers';
 
 
 export default function Home() {
   const [word, setWord]: [string, Function] = useState("");
-  const [columns, setColumns]: [IBlock[][], Function] = useState(
+  const [grid, setGrid]: [IBlock[][], Function] = useState(
     Array.from(Array(6), () => [...Array(10)].map(
-      (_, i) => i > 3 ? { queued: false, letter: '0' } : { queued: false, letter: randomLetter() }))
+      (_, i) => i > 3 ? { queued: false, letter: '' } : { queued: false, letter: randomLetter() }))
   );
 
   const submitWord = () => {
     if (word.length < 3) {
       console.error("Word must be longer than 2 characters.");
       setWord("");
+      setGrid(dequeueBlocks(grid));
       return false;
     }
 
     const isWord: boolean = binSearch(word.toLowerCase());
     if (isWord) {
       console.log('Its a word.');
+      setGrid(removeQueue(grid));
     } else {
       console.log('Not a word.');
+      setGrid(dequeueBlocks(grid));
     }
     setWord("");
   };
 
   const queueLetters = (letters: string[]) => {
-    // Sort Columns by length to prioritize letters in longest arrays.
-    const locCols: IBlock[][] = columns;
-    locCols.sort((a,b) => b.length - a.length);
+    // Dequeue all blocks and localize a copy to mutate.
+    const locGrid: IBlock[][] = dequeueBlocks(grid);
 
-    // Dequeue all letters first.
-    locCols.forEach((col) => {
-      col.forEach((block) => block.queued = false);
-    });
+    // Designate column iteration order to prioritize letters in longest/tallest columns.
+    // Cannot simply sort locGrid or that will change the render order on the screen too.
+    const iterationOrder = [...locGrid]
+      // Add index to columns to preserve order post sort.
+      .map((col, i) => ({ col, index: i }))
+      // Sort by column length.
+      .sort((a,b) => b.col.length - a.col.length)
+      // Return original index in new sorted order to be used in iterations below.
+      .map(({ index }) => index);
 
+    // Queue all blocks with matching letters.
     letters.forEach((letter) => {
-      loop1: for (const col of locCols) {
-        for (const block of col) {
-          // && !block.queued to make sure we're not re-queuing the same letter more than once.
+      loop1: for (const index of iterationOrder) {
+        for (const block of locGrid[index]) {
+          // `&& !block.queued` to make sure we're not re-queuing the same letter more than once.
           if (block.letter === letter && !block.queued) {
             block.queued = true;
             break loop1;
@@ -52,15 +61,16 @@ export default function Home() {
         }
       }
     });
-    setColumns(locCols);
+
+    setGrid(locGrid);
   };
 
   const changeHandler = (value: string) => {
     // Filter out letters that are not in the grid.
-    let allowedLetters = columns.flat().map(({ letter }) => letter);
+    let allowedLetters = grid.flat().map(({ letter }) => letter);
     const sanitizedStr = value.split('').filter((char) => {
       const bool = allowedLetters.includes(char);
-      // Remove first occurence of letter.
+      // Remove this occurence of letter to prevent confusion with subsequent occurences.
       allowedLetters.splice(allowedLetters.findIndex(x => x === char), 1);
       return bool;
     });
@@ -83,7 +93,7 @@ export default function Home() {
       />
       <button onClick={submitWord}>Try</button>
       <Grid
-        columns={columns}
+        columns={grid}
       />
     </div>
   );
