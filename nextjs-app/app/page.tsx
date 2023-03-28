@@ -9,11 +9,9 @@ import LetterGrid from './components/letter-grid';
 
 export default function Home() {
   const [word, setWord]: [string, Function] = useState("");
-  const [letters, setLetters]: [string[], Function] = useState(
-    [...Array(20)].map(() => randomLetter())
+  const [columns, setColumns]: [string[][], Function] = useState(
+    Array.from(Array(6), () => [...Array(10)].map((_, i) => i > 3 ? '0' : randomLetter()))
   );
-
-  // console.log([...Array(20)].map(() => randomLetter()));
 
   const submitWord = () => {
     if (word.length < 3) {
@@ -31,9 +29,6 @@ export default function Home() {
     setWord("");
   };
 
-  // useEffect(() => {
-  // }, [])
-
   return (
     <div className="App">
       <h1>Text</h1>
@@ -41,11 +36,15 @@ export default function Home() {
         type="text"
         value={word}
         onChange={(e) => setWord(e.target.value)}
-        onKeyUp={(e) => e.key === 'Enter' ? submitWord() : null}
+        onKeyUp={({ key }) => {
+          if (key === 'Enter') {
+            submitWord()
+          }
+        }}
       />
       <button onClick={submitWord}>Try</button>
       <LetterGrid
-        letters={letters}
+        columns={columns}
       />
     </div>
   );

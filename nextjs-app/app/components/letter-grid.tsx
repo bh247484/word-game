@@ -1,17 +1,17 @@
-import LetterBlock from "./letter-block";
+import LetterColumn from "./letter-column";
 
 interface IProps {
-  letters: string[];
+  columns: string[][];
 }
 
-export default function LetterGrid({ letters }: IProps) {
+export default function LetterGrid({ columns }: IProps) {
   return (
-    <div className="letter-grid">
+    <div className="letter-grid" style={{display: 'flex', gap: '25px'}}>
       {
-        letters.map((letter: string, index) => (
-          <LetterBlock
+        columns.map((column: string[], index) => (
+          <LetterColumn
             key={index}
-            letter={letter}
+            letters={column}
           />
         ))
       }
