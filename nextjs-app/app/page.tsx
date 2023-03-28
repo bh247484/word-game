@@ -12,9 +12,9 @@ import { dequeueBlocks, removeQueue } from './methods/helpers';
 export default function Home() {
   const [word, setWord]: [string, Function] = useState("");
   const [grid, setGrid]: [IBlock[][], Function] = useState(
-    Array.from(Array(6), () => [...Array(10)].map(
-      (_, i) => i > 3 ? { queued: false, letter: '' } : { queued: false, letter: randomLetter() }))
+    Array.from(Array(6), () => [...Array(4)].map(() => ({ queued: false, letter: randomLetter() })))
   );
+  console.log(grid);
 
   const submitWord = () => {
     if (word.length < 3) {
