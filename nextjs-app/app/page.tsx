@@ -29,13 +29,20 @@ export default function Home() {
     setWord("");
   };
 
+  const changeHandler = (value: string) => {
+    const sanitizedStr = value.split('').filter((char) => {
+      return columns.flat().includes(char);
+    });
+    setWord(sanitizedStr.join(''));
+  };
+
   return (
     <div className="App">
       <h1>Text</h1>
       <input
         type="text"
         value={word}
-        onChange={(e) => setWord(e.target.value)}
+        onChange={({ target }) => changeHandler(target.value)}
         onKeyUp={({ key }) => {
           if (key === 'Enter') {
             submitWord()
