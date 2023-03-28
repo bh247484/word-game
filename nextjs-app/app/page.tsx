@@ -39,19 +39,17 @@ export default function Home() {
     // Dequeue all blocks and localize a copy to mutate.
     const locGrid: IBlock[][] = dequeueBlocks(grid);
 
-    // Designate column iteration order to prioritize letters in longest/tallest columns.
+    // Define column iteration order to prioritize queuing letters in longest/tallest columns first.
     // Cannot simply sort locGrid or that will change the render order on the screen too.
-    const iterationOrder = [...locGrid]
-      // Add index to columns to preserve order post sort.
-      .map((col, i) => ({ col, index: i }))
-      // Sort by column length.
-      .sort((a,b) => b.col.length - a.col.length)
-      // Return original index in new sorted order to be used in iterations below.
-      .map(({ index }) => index);
+    const iterationOrder: { index: number, length: number }[] = [...locGrid]
+      // Return obj with index to preserve order post sort and length for sorting.
+      .map((col, index) => ({ index, length: col.length }))
+      // Sort by column length, longest to shortest.
+      .sort((a,b) => b.length - a.length);
 
-    // Queue all blocks with matching letters.
+    // Queue blocks with matching letters.
     letters.forEach((letter) => {
-      loop1: for (const index of iterationOrder) {
+      loop1: for (const { index } of iterationOrder) {
         for (const block of locGrid[index]) {
           // `&& !block.queued` to make sure we're not re-queuing the same letter more than once.
           if (block.letter === letter && !block.queued) {
