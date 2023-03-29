@@ -24,7 +24,7 @@ export default function Home() {
       return false;
     }
 
-    const isWord: boolean = binSearch(word.toLowerCase());
+    const isWord: boolean = binSearch(word);
     if (isWord) {
       console.log('Its a word.');
       setGrid(removeQueue(grid));
