@@ -1,7 +1,7 @@
 ## TODO
 
 ### Core Functionality
-- Weight random letters.
+- Weight random letters. https://en.wikipedia.org/wiki/Scrabble_letter_distributions
 - Make words drip. Create timeout that adds new letters to column arrays.
 - Create game loop.  while(!gameOver), useEffect - if(grid.some() col.length > 9) gameOver = true.
 
