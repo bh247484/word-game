@@ -6,7 +6,7 @@ import binSearch from './methods/searchAlgo/binSearch';
 import { randomLetter } from './methods/randGen/randGen'
 import Grid from './components/grid';
 import { IBlock } from './types/types';
-import { dequeueBlocks, removeQueue } from './methods/helpers';
+import { dequeueBlocks, removeQueue, queueLetters } from './methods/helpers';
 
 
 export default function Home() {
@@ -35,34 +35,6 @@ export default function Home() {
     setWord("");
   };
 
-  const queueLetters = (letters: string[]) => {
-    // Dequeue all blocks and localize a copy to mutate.
-    const locGrid: IBlock[][] = dequeueBlocks(grid);
-
-    // Define column iteration order to prioritize queuing letters in longest/tallest columns first.
-    // Cannot simply sort locGrid or that will change the render order on the screen too.
-    const iterationOrder: { index: number, length: number }[] = [...locGrid]
-      // Return obj with index to preserve order post sort and length for sorting.
-      .map((col, index) => ({ index, length: col.length }))
-      // Sort by column length, longest to shortest.
-      .sort((a,b) => b.length - a.length);
-
-    // Queue blocks with matching letters.
-    letters.forEach((letter) => {
-      loop1: for (const { index } of iterationOrder) {
-        for (const block of locGrid[index]) {
-          // `&& !block.queued` to make sure we're not re-queuing the same letter more than once.
-          if (block.letter === letter && !block.queued) {
-            block.queued = true;
-            break loop1;
-          }
-        }
-      }
-    });
-
-    setGrid(locGrid);
-  };
-
   const changeHandler = (value: string) => {
     // Filter out letters that are not in the grid.
     let allowedLetters = grid.flat().map(({ letter }) => letter);
@@ -72,7 +44,10 @@ export default function Home() {
       allowedLetters.splice(allowedLetters.findIndex(x => x === char), 1);
       return bool;
     });
-    queueLetters(sanitizedStr);
+
+    // Queue letters based on new sanitized input string and update the grid state.
+    setGrid(queueLetters(sanitizedStr, grid));
+    // Update word state with new santized input string.
     setWord(sanitizedStr.join(''));
   };
 
