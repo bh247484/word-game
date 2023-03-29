@@ -52,18 +52,20 @@ export default function Home() {
   };
 
   return (
-    <div className="App">
-      <h1>Text</h1>
-      <input
-        type="text"
-        value={word}
-        onChange={({ target }) => changeHandler(target.value)}
-        onKeyUp={({ key }) => key === 'Enter' ? submitWord() : null}
-      />
-      <button onClick={submitWord}>Try</button>
-      <Grid
-        columns={grid}
-      />
+    <div className={styles.container}>
+      <div className={styles['board-wrapper']}>
+        <h1>Enter Word</h1>
+        <input
+          type="text"
+          value={word}
+          onChange={({ target }) => changeHandler(target.value)}
+          onKeyUp={({ key }) => key === 'Enter' ? submitWord() : null}
+        />
+        <button onClick={submitWord}>Try</button>
+        <Grid
+          columns={grid}
+        />
+      </div>
     </div>
   );
 }

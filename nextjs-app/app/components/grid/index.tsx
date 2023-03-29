@@ -1,5 +1,6 @@
-import Column from "./column";
-import { IBlock } from "../types/types";
+import Column from '../column';
+import { IBlock } from '../../types/types';
+import styles from './grid.module.css';
 
 interface IProps {
   columns: IBlock[][];
@@ -7,7 +8,7 @@ interface IProps {
 
 export default function Grid({ columns }: IProps) {
   return (
-    <div className="letter-grid" style={{display: 'flex', gap: '25px'}}>
+    <div className={styles['grid-wrapper']}>
       {
         columns.map((column: IBlock[], index) => (
           <Column

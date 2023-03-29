@@ -1,5 +1,5 @@
-import Block from "./block";
-import { IBlock } from "../types/types";
+import Block from "../block";
+import { IBlock } from "../../types/types";
 
 interface IProps {
   id: string;
