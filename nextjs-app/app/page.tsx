@@ -58,11 +58,7 @@ export default function Home() {
         type="text"
         value={word}
         onChange={({ target }) => changeHandler(target.value)}
-        onKeyUp={({ key }) => {
-          if (key === 'Enter') {
-            submitWord()
-          }
-        }}
+        onKeyUp={({ key }) => key === 'Enter' ? submitWord() : null}
       />
       <button onClick={submitWord}>Try</button>
       <Grid
