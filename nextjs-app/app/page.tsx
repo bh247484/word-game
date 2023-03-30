@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 import binSearch from './methods/searchAlgo/binSearch';
-import { randomLetter } from './methods/randGen/randGen'
+import { randomWeightedLetter } from './methods/randGen/randGen'
 import Grid from './components/grid';
 import { IBlock } from './types/types';
 import { dequeueBlocks, removeQueue, queueLetters } from './methods/helpers';
@@ -12,7 +12,7 @@ import { dequeueBlocks, removeQueue, queueLetters } from './methods/helpers';
 export default function Home() {
   const [word, setWord]: [string, Function] = useState("");
   const [grid, setGrid]: [IBlock[][], Function] = useState(
-    Array.from(Array(6), () => [...Array(4)].map(() => ({ queued: false, letter: randomLetter() })))
+    Array.from(Array(6), () => [...Array(4)].map(() => ({ queued: false, letter: randomWeightedLetter() })))
   );
   console.log(grid);
 
