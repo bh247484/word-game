@@ -6,7 +6,8 @@ import binSearch from './methods/searchAlgo/binSearch';
 import { randomWeightedLetter } from './methods/randGen/randGen'
 import Grid from './components/grid';
 import { IBlock } from './types/types';
-import { dequeueBlocks, removeQueue, queueLetters } from './methods/helpers';
+import { dequeueBlocks, removeQueue, queueLetters, newDrip } from './methods/helpers';
+import useInterval from './methods/useInterval';
 
 
 export default function Home() {
@@ -14,6 +15,8 @@ export default function Home() {
   const [grid, setGrid]: [IBlock[][], Function] = useState(
     Array.from(Array(6), () => [...Array(4)].map(() => ({ queued: false, letter: randomWeightedLetter() })))
   );
+  const [gameOver, setGameOver]: [boolean, Function] = useState(false);
+  const [dripDelay, setDripDelay] = useState(10 * 1000);
   console.log(grid);
 
   const submitWord = () => {
@@ -51,6 +54,16 @@ export default function Home() {
     setWord(sanitizedStr.join(''));
   };
 
+  useInterval(() => newDrip(grid, setGrid), gameOver ? null : dripDelay);
+
+  useEffect(() => {
+    if ( grid.some((col) => col.length > 10) ) {
+      // Log the longest column length to warn player.
+      setGameOver(true);
+      console.log('Game Over!');
+    }
+  }, [grid]);
+
   return (
     <div className={styles.container}>
       <div className={styles['board-wrapper']}>
@@ -65,6 +78,7 @@ export default function Home() {
         <Grid
           columns={grid}
         />
+        <button onClick={() => newDrip(grid, setGrid)}>Add Row</button>
       </div>
     </div>
   );
