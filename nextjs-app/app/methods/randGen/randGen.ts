@@ -61,7 +61,7 @@ export function randomWeightedLetter(): string {
       return letter;
     }
   }
-  // This will never happen given that the randInt is constrained by the weightSpread.
+  // This will never happen since the randInt is constrained by the weightSpread.
   // But it keeps Typescript happy.
   return '';
 }
