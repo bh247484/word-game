@@ -1,8 +1,10 @@
 ## TODO
 
 ### Core Functionality
-- Make words drip. Create timeout that adds new letters to column arrays.
+- Game clock per level.
 - Create game loop.  while(!gameOver), useEffect - if(grid.some() col.length > 9) gameOver = true.
+- parameterize global options/config
+- Redemption, after gameOver if you can x,y,z with the letters remaining you have another chance
 
 
 ### Bonus Features
