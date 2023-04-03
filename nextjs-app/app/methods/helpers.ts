@@ -1,4 +1,5 @@
 import { IBlock } from "../types/types";
+import { randomWeightedLetter } from "./randGen/randGen";
 
 export function dequeueBlocks(grid: IBlock[][]): IBlock[][] {
   return grid.map((col) => col.map(({ letter }) => {
@@ -36,4 +37,13 @@ export function queueLetters(letters: string[], grid: IBlock[][]): IBlock[][] {
     });
 
     return locGrid;
+}
+
+export function newDrip(grid: IBlock[][], setGrid: Function) {
+  const locGrid = grid.map((col) => {
+    col.push({ queued: false, letter: randomWeightedLetter() });
+    return col;
+  });
+
+  setGrid(locGrid);
 }
