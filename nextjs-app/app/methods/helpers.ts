@@ -41,7 +41,7 @@ export function queueLetters(letters: string[], grid: IBlock[][]): IBlock[][] {
 
 export function newDrip(grid: IBlock[][], setGrid: Function) {
   const locGrid = grid.map((col) => {
-    col.push({ queued: false, letter: randomWeightedLetter() });
+    col.unshift({ queued: false, letter: randomWeightedLetter() });
     return col;
   });
 
