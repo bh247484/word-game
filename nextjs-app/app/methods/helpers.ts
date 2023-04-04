@@ -47,3 +47,7 @@ export function newDrip(grid: IBlock[][], setGrid: Function) {
 
   setGrid(locGrid);
 }
+
+export function percentExpired(range: number, current: number): number {
+  return (1 - (current / range)) * 100;
+}

@@ -6,18 +6,24 @@ import binSearch from './methods/searchAlgo/binSearch';
 import { randomWeightedLetter } from './methods/randGen/randGen'
 import Grid from './components/grid';
 import { IBlock } from './types/types';
-import { dequeueBlocks, removeQueue, queueLetters, newDrip } from './methods/helpers';
+import { dequeueBlocks, removeQueue, queueLetters, newDrip, percentExpired } from './methods/helpers';
 import useInterval from './methods/useInterval';
+import Clock from './components/clock';
+
+const LEVEL_TIME = 120;
+const INIT_DRIP_DELAY = 15;
+const INIT_ROWS = 4;
 
 
 export default function Home() {
   const [word, setWord]: [string, Function] = useState("");
   const [grid, setGrid]: [IBlock[][], Function] = useState(
-    Array.from(Array(6), () => [...Array(4)].map(() => ({ queued: false, letter: randomWeightedLetter() })))
+    Array.from(Array(6), () => [...Array(INIT_ROWS)].map(() => ({ queued: false, letter: randomWeightedLetter() })))
   );
   const [gameOver, setGameOver]: [boolean, Function] = useState(false);
-  const [dripDelay, setDripDelay] = useState(10 * 1000);
-  console.log(grid);
+  const [dripDelay, setDripDelay] = useState(INIT_DRIP_DELAY * 1000);
+  const [time, setTime] = useState(LEVEL_TIME);
+  // console.log(grid);
 
   const submitWord = () => {
     if (word.length < 3) {
@@ -55,6 +61,20 @@ export default function Home() {
   };
 
   useInterval(() => newDrip(grid, setGrid), gameOver ? null : dripDelay);
+  useInterval(() => {
+    if (time > 0) {
+      setTime(time - 1);
+    } 
+  }, 1000);
+
+  // Update drip delay after certain amount of time expires.
+  useEffect(() => {
+    // Triggers at 25%, 50%, and 75% time expired.
+    if ( time !== LEVEL_TIME && percentExpired(LEVEL_TIME, time) % 25 === 0 ) {
+      console.log(time);
+      setDripDelay(dripDelay => dripDelay * .75);
+    }
+  }, [time]);
 
   useEffect(() => {
     if ( grid.some((col) => col.length > 10) ) {
@@ -67,7 +87,9 @@ export default function Home() {
   return (
     <div className={styles.container}>
       <div className={styles['board-wrapper']}>
-        <h1>Enter Word</h1>
+        <h3>Time Remaining</h3>
+        <Clock time={time} />
+        <h3>Enter Word</h3>
         <input
           type="text"
           value={word}
