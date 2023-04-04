@@ -1,9 +1,12 @@
 ## TODO
 
 ### Core Functionality
-- Game clock per level.
-- Create game loop.  while(!gameOver), useEffect - if(grid.some() col.length > 9) gameOver = true.
-- parameterize global options/config
+- Fully realize game loop. Trigger 'Level Clear' when time expires. Create 'Game Over' screen/comp.
+- Fully parameterize global options/config. Pass to board as props?
+- Log words spelled/scored in column.
+- Create pointing system.
+  - Multipliers
+  - Longer words, don't just score higher but also clear bonus blocks
 - Redemption, after gameOver if you can x,y,z with the letters remaining you have another chance
 
 
