@@ -1,4 +1,4 @@
-import Block from "../block";
+import { Block } from "../";
 import { IBlock } from "../../types/types";
 import styles from './column.module.css';
 
