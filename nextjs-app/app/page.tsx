@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react';
 import styles from './page.module.css';
-import binSearch from './methods/searchAlgo/binSearch';
-import { randomWeightedLetter } from './methods/randGen/randGen'
+import binSearch from './utils/searchAlgo/binSearch';
+import { randomWeightedLetter } from './utils/randGen/randGen'
 import { Grid } from './components';
 import { IBlock } from './types/types';
-import { dequeueBlocks, removeQueue, queueLetters, newDrip, percentExpired } from './methods/helpers';
-import useInterval from './methods/useInterval';
+import { dequeueBlocks, removeQueue, queueLetters, newDrip, percentExpired } from './utils/helpers';
+import useInterval from './utils/useInterval';
 import Clock from './components/clock';
 
 const LEVEL_TIME = 120;

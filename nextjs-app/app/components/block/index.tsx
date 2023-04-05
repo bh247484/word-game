@@ -1,6 +1,6 @@
 import { IBlock } from '../../types/types';
 import styles from './block.module.css';
-import joinClasses from '@/app/methods/joinClasses';
+import joinClasses from '@/app/utils/joinClasses';
 
 interface IProps {
   id: string;
