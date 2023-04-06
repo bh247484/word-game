@@ -67,11 +67,16 @@ const actionMap = new Map<string, Function>([
     });
   }],
 
+  ['new-board', (_grid: IBlock[][], rows: number) => {
+    return Array.from(
+      Array(6),
+      () => [...Array(rows)].map(() => ({ queued: false, letter: randomWeightedLetter() }))
+    );
+  }],
+
 ]);
 
 export function createInitialState(rows: number): IBlock[][] {
-  return Array.from(
-    Array(6),
-    () => [...Array(rows)].map(() => ({ queued: false, letter: randomWeightedLetter() }))
-  );
+  const newBoard = actionMap.get('new-board')!;
+  return newBoard(null, rows);
 }
