@@ -1,45 +1,45 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import styles from './gameBoard.module.css';
 import binSearch from './utils/searchAlgo/binSearch';
-import { randomWeightedLetter } from './utils/randGen/randGen'
-import { Grid } from './components';
-import { IBlock } from './types/types';
-import { dequeueBlocks, removeQueue, queueLetters, newDrip, percentExpired } from './utils/helpers';
+import { Clock, Grid } from './components';
+import { IBlock, IGameConfig } from './types/types';
+import { percentExpired } from './utils/helpers';
 import useInterval from './utils/useInterval';
-import Clock from './components/clock';
+import { createInitialState, gridReducer } from './reducers/gridReducer';
 
 const LEVEL_TIME = 120;
 const INIT_DRIP_DELAY = 15;
 const INIT_ROWS = 4;
 
+interface IProps {
+  gameConfig: IGameConfig;
+}
 
-export default function GameBoard() {
+export default function GameBoard({ gameConfig }: IProps) {
+  const [grid, dispatch]: [IBlock[][], Function] = useReducer(gridReducer, gameConfig, createInitialState); 
   const [word, setWord]: [string, Function] = useState("");
-  const [grid, setGrid]: [IBlock[][], Function] = useState(
-    Array.from(Array(6), () => [...Array(INIT_ROWS)].map(() => ({ queued: false, letter: randomWeightedLetter() })))
-  );
   const [gameOver, setGameOver]: [boolean, Function] = useState(false);
   const [dripDelay, setDripDelay] = useState(INIT_DRIP_DELAY * 1000);
   const [time, setTime] = useState(LEVEL_TIME);
-  // console.log(grid);
+  console.log(grid);
 
   const submitWord = () => {
     if (word.length < 3) {
       console.error("Word must be longer than 2 characters.");
       setWord("");
-      setGrid(dequeueBlocks(grid));
+      dispatch({ type: 'dequeue-blocks' });
       return false;
     }
 
     const isWord: boolean = binSearch(word);
     if (isWord) {
       console.log('Its a word.');
-      setGrid(removeQueue(grid));
+      dispatch({ type: 'remove-queue' });
     } else {
       console.log('Not a word.');
-      setGrid(dequeueBlocks(grid));
+      dispatch({ type: 'dequeue-blocks' });
     }
     setWord("");
   };
@@ -55,12 +55,13 @@ export default function GameBoard() {
     });
 
     // Queue letters based on new sanitized input string and update the grid state.
-    setGrid(queueLetters(sanitizedStr, grid));
+    // setGrid(queueLetters(sanitizedStr, grid));
+    dispatch({ type: 'queue-letters', payload: sanitizedStr });
     // Update word state with new santized input string.
     setWord(sanitizedStr.join(''));
   };
 
-  useInterval(() => newDrip(grid, setGrid), gameOver ? null : dripDelay);
+  useInterval(() => dispatch({ type: 'new-drip' }), gameOver ? null : dripDelay);
   useInterval(() => {
     if (time > 0) {
       setTime(time - 1);
@@ -99,7 +100,7 @@ export default function GameBoard() {
       <Grid
         columns={grid}
       />
-      <button onClick={() => newDrip(grid, setGrid)}>Add Row</button>
+      <button onClick={() => dispatch({ type: 'new-drip' })}>Add Row</button>
     </div>
   );
 }
