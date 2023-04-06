@@ -65,6 +65,13 @@ export default function GameBoard({
     setWord(sanitizedStr.join(''));
   };
 
+  const newGame = () => {
+    setTime(levelTime);
+    dispatch({ type: 'new-board', payload: rows });
+    setDripDelay(initDripDelay * 1000);
+    setNoDrip(false);
+  }
+
   useInterval(() => dispatch({ type: 'new-drip' }), noDrip ? null : dripDelay);
   useInterval(() => {
     if (time > 0) {
@@ -97,6 +104,14 @@ export default function GameBoard({
     <div className={styles['board-wrapper']}>
       <h3>Time Remaining</h3>
       <Clock time={time} />
+      <br />
+      {
+        time === 0 ? (
+          <button onClick={() => newGame()}>New Game!</button>
+        ) : null
+      }
+      <br />
+      <br />
       <h3>Enter Word</h3>
       <input
         type="text"
