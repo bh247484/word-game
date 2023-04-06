@@ -1,12 +1,10 @@
 ## TODO
 
 ### Tech Infra
-- Refactor state to useReducer.
-- Fully parameterize global options/config. Pass to board as props?
+- Refactor word state to useReducer.
 - Convert from NextJS to Vite react proj.
 
 ### Core Functionality
-- Fully realize game loop. Trigger 'Level Clear' when time expires. Create 'Game Over' screen/comp.
 - Log words spelled/scored in column.
 - Create pointing system.
   - Multipliers

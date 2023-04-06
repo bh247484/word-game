@@ -10,7 +10,7 @@ export default function Home() {
 
   const gameConfig = {
     initDripDelay: 15,
-    levelTime: 30,
+    levelTime: 120,
     rows: 4,
   };
 
