@@ -27,15 +27,15 @@ export default function GameBoard({
   setLevelClear
 }: IProps) {
   const [grid, dispatch]: [IBlock[][], Function] = useReducer(gridReducer, rows, createInitialState); 
-  const [word, setWord]: [string, Function] = useState("");
+  const [word, setWord]: [string, Function] = useState('');
   const [dripDelay, setDripDelay] = useState(initDripDelay * 1000);
   const [time, setTime] = useState(levelTime);
   // console.log(grid);
 
   const submitWord = () => {
     if (word.length < 3) {
-      console.error("Word must be longer than 2 characters.");
-      setWord("");
+      console.error('Word must be longer than 2 characters.');
+      setWord('');
       dispatch({ type: 'dequeue-blocks' });
       return false;
     }
@@ -48,7 +48,7 @@ export default function GameBoard({
       console.log('Not a word.');
       dispatch({ type: 'dequeue-blocks' });
     }
-    setWord("");
+    setWord('');
   };
 
   const changeHandler = (value: string) => {
