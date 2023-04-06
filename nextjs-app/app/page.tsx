@@ -6,20 +6,17 @@ import GameBoard from './gameBoard';
 
 export default function Home() {
   const [gameOver, setGameOver]: [boolean, Function] = useState(false);
-  const [levelClear, setLevelClear]: [boolean, Function] = useState(false);
   const [activeComp, setActiveComp]: [string, Function] = useState('game-board')
 
   const gameConfig = {
     initDripDelay: 15,
-    levelTime: 120,
+    levelTime: 30,
     rows: 4,
   };
 
   useEffect(() => {
     if (gameOver) setActiveComp('game-over');
-    if (levelClear) setActiveComp('level-clear');
-
-  }, [gameOver, levelClear])
+  }, [gameOver])
 
   return (
     <div className={styles.container}>
@@ -27,12 +24,9 @@ export default function Home() {
         {
           'game-board': <GameBoard
                           gameConfig={gameConfig}
-                          gameOver={gameOver}
                           setGameOver={setGameOver}
-                          setLevelClear={setLevelClear}
                         />,
           'game-over': <h2>GAME OVER</h2>,
-          'level-clear': <h2>LEVEL CLEAR</h2>,
         }[activeComp]
       }
     </div>

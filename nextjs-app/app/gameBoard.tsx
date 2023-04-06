@@ -11,9 +11,7 @@ import { createInitialState, gridReducer } from './reducers/gridReducer';
 
 interface IProps {
   gameConfig: IGameConfig;
-  gameOver: boolean;
   setGameOver: Function;
-  setLevelClear: Function;
 }
 
 export default function GameBoard({
@@ -22,13 +20,12 @@ export default function GameBoard({
     levelTime,
     rows,
   },
-  gameOver,
   setGameOver,
-  setLevelClear
 }: IProps) {
   const [grid, dispatch]: [IBlock[][], Function] = useReducer(gridReducer, rows, createInitialState); 
   const [word, setWord]: [string, Function] = useState('');
   const [dripDelay, setDripDelay] = useState(initDripDelay * 1000);
+  const [noDrip, setNoDrip] = useState(false);
   const [time, setTime] = useState(levelTime);
   // console.log(grid);
 
@@ -68,7 +65,7 @@ export default function GameBoard({
     setWord(sanitizedStr.join(''));
   };
 
-  useInterval(() => dispatch({ type: 'new-drip' }), gameOver ? null : dripDelay);
+  useInterval(() => dispatch({ type: 'new-drip' }), noDrip ? null : dripDelay);
   useInterval(() => {
     if (time > 0) {
       setTime(time - 1);
@@ -82,8 +79,8 @@ export default function GameBoard({
       console.log(time);
       setDripDelay(dripDelay => dripDelay * .75);
     }
-    if ( time === 0 ) {
-      setLevelClear(true);
+    if (time === 0) {
+      setNoDrip(true);
     }
   }, [time]);
 
@@ -91,6 +88,7 @@ export default function GameBoard({
     if ( grid.some((col) => col.length > 10) ) {
       // Log the longest column length to warn player.
       setGameOver(true);
+      setNoDrip(true);
       console.log('Game Over!');
     }
   }, [grid]);

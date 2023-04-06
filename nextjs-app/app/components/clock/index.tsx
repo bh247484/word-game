@@ -10,7 +10,10 @@ export default function Clock({ time }: IProps) {
 
   return (
     <div className={styles.nothing}>
-      {minutes} : {seconds}
+      { time === 0
+        ? ( <p>Level Clear!</p> )
+        : ( <p>{minutes} : {seconds}</p> )
+      }
     </div>
   );
 }
