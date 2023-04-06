@@ -4,7 +4,7 @@ export interface IBlock {
 }
 
 export interface IGameConfig {
-  dripDelay: number;
+  initDripDelay: number;
   levelTime: number;
   rows: number;
 }

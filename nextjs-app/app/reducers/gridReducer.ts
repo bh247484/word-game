@@ -1,11 +1,11 @@
-import { IBlock, IGameConfig } from "../types/types";
+import { IBlock } from "../types/types";
 import { randomWeightedLetter } from "../utils/randGen/randGen";
 
 export const ACTIONS = {
 
 };
 
-export function gridReducer(grid: IBlock[][], { type, payload }: any) {
+export function gridReducer(grid: IBlock[][], { type, payload }: any): IBlock[][] {
   const action: Function = actionMap.get(type)!;
   return action ? action(grid, payload) : grid;
 }
@@ -69,7 +69,7 @@ const actionMap = new Map<string, Function>([
 
 ]);
 
-export function createInitialState({ rows }: IGameConfig) {
+export function createInitialState(rows: number): IBlock[][] {
   return Array.from(
     Array(6),
     () => [...Array(rows)].map(() => ({ queued: false, letter: randomWeightedLetter() }))

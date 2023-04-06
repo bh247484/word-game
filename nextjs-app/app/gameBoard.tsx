@@ -9,21 +9,28 @@ import { percentExpired } from './utils/helpers';
 import useInterval from './utils/useInterval';
 import { createInitialState, gridReducer } from './reducers/gridReducer';
 
-const LEVEL_TIME = 120;
-const INIT_DRIP_DELAY = 15;
-const INIT_ROWS = 4;
-
 interface IProps {
   gameConfig: IGameConfig;
+  gameOver: boolean;
+  setGameOver: Function;
+  setLevelClear: Function;
 }
 
-export default function GameBoard({ gameConfig }: IProps) {
-  const [grid, dispatch]: [IBlock[][], Function] = useReducer(gridReducer, gameConfig, createInitialState); 
+export default function GameBoard({
+  gameConfig: {
+    initDripDelay,
+    levelTime,
+    rows,
+  },
+  gameOver,
+  setGameOver,
+  setLevelClear
+}: IProps) {
+  const [grid, dispatch]: [IBlock[][], Function] = useReducer(gridReducer, rows, createInitialState); 
   const [word, setWord]: [string, Function] = useState("");
-  const [gameOver, setGameOver]: [boolean, Function] = useState(false);
-  const [dripDelay, setDripDelay] = useState(INIT_DRIP_DELAY * 1000);
-  const [time, setTime] = useState(LEVEL_TIME);
-  console.log(grid);
+  const [dripDelay, setDripDelay] = useState(initDripDelay * 1000);
+  const [time, setTime] = useState(levelTime);
+  // console.log(grid);
 
   const submitWord = () => {
     if (word.length < 3) {
@@ -71,9 +78,12 @@ export default function GameBoard({ gameConfig }: IProps) {
   // Update drip delay after certain amount of time expires.
   useEffect(() => {
     // Triggers at 25%, 50%, and 75% time expired.
-    if ( time !== LEVEL_TIME && percentExpired(LEVEL_TIME, time) % 25 === 0 ) {
+    if ( time !== levelTime && percentExpired(levelTime, time) % 25 === 0 ) {
       console.log(time);
       setDripDelay(dripDelay => dripDelay * .75);
+    }
+    if ( time === 0 ) {
+      setLevelClear(true);
     }
   }, [time]);
 
