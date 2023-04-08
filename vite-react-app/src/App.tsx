@@ -1,36 +1,34 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import styles from './app.module.css';
+import { GameBoard } from '@/components';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [gameOver, setGameOver]: [boolean, Function] = useState(false);
+  const [activeComp, setActiveComp]: [string, Function] = useState('game-board')
+
+  const gameConfig = {
+    initDripDelay: 15,
+    levelTime: 120,
+    rows: 4,
+  };
+
+  useEffect(() => {
+    if (gameOver) setActiveComp('game-over');
+  }, [gameOver])
 
   return (
-    <div className="App">
-      <h2>Behold a Change!!</h2>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 5)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className={styles.container}>
+      {
+        {
+          'game-board': <GameBoard
+                          gameConfig={gameConfig}
+                          setGameOver={setGameOver}
+                        />,
+          'game-over': <h2>GAME OVER</h2>,
+        }[activeComp]
+      }
     </div>
-  )
+  );
 }
 
 export default App
