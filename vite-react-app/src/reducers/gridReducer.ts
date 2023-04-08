@@ -60,19 +60,23 @@ const actionMap = new Map<string, Function>([
     }
   ],
 
-  ['new-drip', (grid: IBlock[][]) => {
-    return grid.map((col: IBlock[]) => {
-      col.unshift({ queued: false, letter: randomWeightedLetter() });
-      return col;
-    });
-  }],
+  [
+    'new-drip', (grid: IBlock[][]) => {
+      return grid.map((col: IBlock[]) => {
+        // Add new random letter to the start of column. 
+        return [{ queued: false, letter: randomWeightedLetter() }, ...col];
+      });
+    }
+  ],
 
-  ['new-board', (_grid: IBlock[][], rows: number) => {
-    return Array.from(
-      Array(6),
-      () => [...Array(rows)].map(() => ({ queued: false, letter: randomWeightedLetter() }))
-    );
-  }],
+  [
+    'new-board', (_grid: IBlock[][], rows: number) => {
+      return Array.from(
+        Array(6),
+        () => [...Array(rows)].map(() => ({ queued: false, letter: randomWeightedLetter() }))
+      );
+    }
+  ],
 
 ]);
 
