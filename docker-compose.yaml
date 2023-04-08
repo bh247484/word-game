@@ -7,17 +7,6 @@ services:
       - ./psql-data:/var/lib/postgresql/data
     ports:
       - '5432:5432'
-  nextjs-app:
-    container_name: nextjs-app
-    ports:
-      - '3000:3000'
-    build:
-      context: ./nextjs-app
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./nextjs-app:/app
-      - /app/node_modules
-      - /app/.next
   vite-react-app:
     container_name: vite-react-app
     ports:
