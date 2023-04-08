@@ -1,5 +1,5 @@
 import { IBlock } from "../types/types";
-import { randomWeightedLetter } from "../utils/randGen/randGen";
+import { randomWeightedLetter } from "../utils/randGen";
 
 export const ACTIONS = {
 
