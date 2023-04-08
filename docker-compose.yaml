@@ -18,6 +18,16 @@ services:
       - ./nextjs-app:/app
       - /app/node_modules
       - /app/.next
+  vite-react-app:
+    container_name: vite-react-app
+    ports:
+      - '5173:5173'
+    build:
+      context: ./vite-react-app
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./vite-react-app:/app
+      - /app/node_modules
   asp-api:
     container_name: asp-api
     build:
