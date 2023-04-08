@@ -6,12 +6,6 @@ function App() {
   const [gameOver, setGameOver]: [boolean, Function] = useState(false);
   const [activeComp, setActiveComp]: [string, Function] = useState('game-board')
 
-  const gameConfig = {
-    initDripDelay: 15,
-    levelTime: 120,
-    rows: 4,
-  };
-
   useEffect(() => {
     if (gameOver) setActiveComp('game-over');
   }, [gameOver])
@@ -21,7 +15,6 @@ function App() {
       {
         {
           'game-board': <GameBoard
-                          gameConfig={gameConfig}
                           setGameOver={setGameOver}
                         />,
           'game-over': <h2>GAME OVER</h2>,

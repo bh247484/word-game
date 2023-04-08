@@ -80,7 +80,7 @@ const actionMap = new Map<string, Function>([
 
 ]);
 
-export function createInitialState(rows: number): IBlock[][] {
+export function gridInit(rows: number): IBlock[][] {
   const newBoard = actionMap.get('new-board')!;
   return newBoard(null, rows);
 }
