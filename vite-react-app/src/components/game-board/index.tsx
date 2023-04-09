@@ -65,13 +65,29 @@ export default function GameBoard({ setGameOver }: IProps) {
   };
 
   const nextLevel = () => {
-    // setTime(levelTime);
-    // gcDispatch({ type: 'setTime', payload: 120 });
-    // gridDispatch({ type: 'new-board', payload: rows });
-    // setDripDelay(initDripDelay * 1000);
-    // setNoDrip(false);
-    console.log('Next Level')
+    if (level < worldConfig[world].levels.length - 1) {
+      gcDispatch({ type: 'setLevel', payload: level + 1 });
+    } else {
+      gcDispatch({ type: 'setLevel', payload: 0 });
+      gcDispatch({ type: 'setWorld', payload: world + 1 });
+    }
+    console.log('Next Level');
   }
+
+  // Update config when level changes.
+  useEffect(() => {
+    console.log('New Level: ', level);
+    console.log('World: ', world);
+    const { dripDelay, time, rows } = worldConfig[world].levels[level];
+    gcDispatch({ type: 'setDripDelay', payload: dripDelay });
+    gcDispatch({ type: 'setTime', payload: time });
+    gridDispatch({ type: 'new-board', payload: rows });
+  }, [level])
+
+  // Update config when world changes.
+  useEffect(() => {
+    console.log('New World: ', world);
+  }, [world])
 
   // Update drip delay after percent time expires.
   useEffect(() => {
@@ -96,16 +112,11 @@ export default function GameBoard({ setGameOver }: IProps) {
     }
   }, [grid]);
 
-  // Update config when level changes.
-  useEffect(() => {
-    console.log('level');
-  }, [level])
-
   return (
     <div className={styles['board-wrapper']}>
+      <h4>World: {world} - {level}</h4>
       <h3>Time Remaining</h3>
       <Clock time={time} />
-      <br />
       {
         time === 0 ? (
           <button onClick={() => nextLevel()}>Next Level!</button>
@@ -113,6 +124,7 @@ export default function GameBoard({ setGameOver }: IProps) {
       }
       <h3>Enter Word</h3>
       <input
+        className={styles.input}
         type="text"
         value={word}
         onChange={({ target }) => changeHandler(target.value)}
