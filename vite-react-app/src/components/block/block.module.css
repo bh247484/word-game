@@ -1,7 +1,9 @@
 .block-wrapper {
   border: 1px dotted white;
+  border-radius: 8px;
   font-family: 'Courier New', Courier, monospace;
   font-size: 24px;
+  line-height: 20px;
   padding: 12px;
 }
 

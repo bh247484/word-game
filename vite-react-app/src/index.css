@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgb(255, 255, 255);
-  background-color: #000000;
+  background-color: #1a0029;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -28,11 +28,6 @@ a:hover {
 }
 
 body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
@@ -47,12 +42,12 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #b34b00;
   cursor: pointer;
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: #000550;
 }
 button:focus,
 button:focus-visible {
