@@ -1,6 +1,7 @@
 ## TODO
 
 ### Core Functionality
+- Tweak level config
 - Log words spelled/scored in column.
 - Create pointing system.
   - Multipliers
