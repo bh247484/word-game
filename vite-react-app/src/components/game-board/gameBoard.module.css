@@ -1,5 +1,20 @@
 .board-wrapper {
-  /* margin-top: 50px; */
+  display: flex;
+  width: 100%
+}
+
+.col-1 {
+  flex: 1;
+}
+
+.col-2 {
+  display: flex;
+  flex: 2;
+  justify-content: center;
+}
+
+.col-3 {
+  flex: 1;
 }
 
 .input {

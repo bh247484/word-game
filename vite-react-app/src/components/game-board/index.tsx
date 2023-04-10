@@ -19,6 +19,7 @@ export default function GameBoard({ setGameOver }: IProps) {
   }, gcDispatch]: [IGameConfig, Function] = useReducer(gameConfigReducer, null, gameConfigInit);
   const [grid, gridDispatch]: [IBlock[][], Function] = useReducer(gridReducer, rows, gridInit); 
   const [word, setWord]: [string, Function] = useState('');
+  const [scoredWords, setScoredWords]: [string[], Function] = useState([]);
 
   // Setup time intervals.
   useInterval(() => gridDispatch({ type: 'new-drip' }), pauseDrip ? null : dripDelay);
@@ -40,6 +41,7 @@ export default function GameBoard({ setGameOver }: IProps) {
     if (isWord) {
       console.log('Its a word.');
       gridDispatch({ type: 'remove-queue' });
+      setScoredWords([...scoredWords, word]);
     } else {
       console.log('Not a word.');
       gridDispatch({ type: 'dequeue-blocks' });
@@ -114,27 +116,44 @@ export default function GameBoard({ setGameOver }: IProps) {
 
   return (
     <div className={styles['board-wrapper']}>
-      <h4>World: {world} - {level}</h4>
-      <h3>Time Remaining</h3>
-      <Clock time={time} />
-      {
-        time === 0 ? (
-          <button onClick={() => nextLevel()}>Next Level!</button>
-        ) : null
-      }
-      <h3>Enter Word</h3>
-      <input
-        className={styles.input}
-        type="text"
-        value={word}
-        onChange={({ target }) => changeHandler(target.value)}
-        onKeyUp={({ key }) => key === 'Enter' ? submitWord() : null}
-      />
-      <button onClick={submitWord}>Try</button>
-      <Grid
-        columns={grid}
-      />
-      <button onClick={() => gridDispatch({ type: 'new-drip' })}>Add Row</button>
+      <div className={styles['col-1']}>
+        <h4>World: {world} - {level}</h4>
+        <h3>Time Remaining</h3>
+        <Clock time={time} />
+        {
+          time === 0 ? (
+            <button onClick={() => nextLevel()}>Next Level!</button>
+          ) : null
+        }
+        <button onClick={() => gridDispatch({ type: 'new-drip' })}>Add Row</button>
+      </div>
+      <div className={styles['col-2']}>
+        <div className="grid-wrapper">
+          <h3>Enter Word</h3>
+          <input
+            className={styles.input}
+            type="text"
+            value={word}
+            onChange={({ target }) => changeHandler(target.value)}
+            onKeyUp={({ key }) => key === 'Enter' ? submitWord() : null}
+          />
+          <button onClick={submitWord}>Try</button>
+          <Grid
+            columns={grid}
+          />
+        </div>
+      </div>
+      <div className={styles['col-3']}>
+        {
+          scoredWords.length > 0 ? (
+            <ul>
+              {
+                scoredWords.map(scoredWord => <li>{scoredWord}</li>)
+              }
+            </ul>
+          ) : null
+        }
+      </div>
     </div>
   );
 }
