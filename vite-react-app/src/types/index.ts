@@ -11,3 +11,14 @@ export interface IGameConfig {
   rows: number;
   world: number;
 }
+
+export interface ILevelConfig {
+  dripDelay: number;
+  time: number;
+  rows: number;
+}
+
+export interface IWorldConfig {
+  name: string;
+  levels: ILevelConfig[];
+}

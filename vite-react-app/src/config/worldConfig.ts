@@ -1,4 +1,6 @@
-export const worldConfig = [
+import { IWorldConfig } from "@/types";
+
+export const worldConfig: IWorldConfig[] = [
     {
         name: 'World 0',
         levels: [
