@@ -1,15 +1,18 @@
 ## TODO
 
-### Tech Infra
-- Refactor word state to useReducer.
-- Convert from NextJS to Vite react proj.
-
 ### Core Functionality
 - Log words spelled/scored in column.
 - Create pointing system.
   - Multipliers
   - Longer words, don't just score higher but also clear bonus blocks
 - Redemption, after gameOver if you can x,y,z with the letters remaining you have another chance
+
+### Tech Infra
+- ...
+
+### Server Side Features
+- Keep track of spelled words, as percentage of all words spelled.
+  - Increment bigints for number of times word spelled, and number of all words spelled.
 
 
 ### Bonus Features
