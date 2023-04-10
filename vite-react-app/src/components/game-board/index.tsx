@@ -41,7 +41,7 @@ export default function GameBoard({ setGameOver }: IProps) {
     if (isWord) {
       console.log('Its a word.');
       gridDispatch({ type: 'remove-queue' });
-      setScoredWords([...scoredWords, word]);
+      setScoredWords([word, ...scoredWords]);
     } else {
       console.log('Not a word.');
       gridDispatch({ type: 'dequeue-blocks' });
