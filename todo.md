@@ -1,12 +1,11 @@
 ## TODO
 
 ### Core Functionality
-- Tweak level config
-- Log words spelled/scored in column.
 - Create pointing system.
   - Multipliers
   - Longer words, don't just score higher but also clear bonus blocks
 - Shuffle letter position for new look.
+- Tweak level configs (timing, drip intensity).
 - Redemption, after gameOver if you can x,y,z with the letters remaining you have another chance
 
 ### Tech Infra
