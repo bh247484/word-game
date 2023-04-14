@@ -22,3 +22,11 @@ export interface IWorldConfig {
   name: string;
   levels: ILevelConfig[];
 }
+
+export interface IScoreState {
+  gameScore: number;
+  levelScore: number;
+  multiplier: number;
+  multiTime: number;
+  scoredWords: string[];
+}

@@ -1,9 +1,10 @@
 import { useEffect, useReducer, useState } from 'react';
 import styles from './gameBoard.module.css';
-import { IBlock, IGameConfig } from '@/types';
+import { IBlock, IGameConfig, IScoreState } from '@/types';
 import { Clock, Grid } from '@/components';
 import { gameConfigInit, gameConfigReducer } from '@/reducers/gameConfigReducer';
 import { gridInit, gridReducer } from '@/reducers/gridReducer';
+import { scoreReducer, scoreInit } from '@/reducers/scoreReducer';
 import useInterval from '@/utils/useInterval';
 import binSearch from '@/utils/searchAlgo/binSearch';
 import { percentExpired } from '@/utils/helpers';
@@ -17,17 +18,20 @@ export default function GameBoard({ setGameOver }: IProps) {
   const [{
     dripDelay, pauseDrip, time, rows, level, world
   }, gcDispatch]: [IGameConfig, Function] = useReducer(gameConfigReducer, null, gameConfigInit);
+  const [{
+    gameScore, multiplier, multiTime, levelScore, scoredWords
+  }, scoreDispatch]: [IScoreState, Function] = useReducer(scoreReducer, null, scoreInit);
   const [grid, gridDispatch]: [IBlock[][], Function] = useReducer(gridReducer, rows, gridInit); 
   const [word, setWord]: [string, Function] = useState('');
-  const [scoredWords, setScoredWords]: [string[], Function] = useState([]);
 
-  // Setup time intervals.
+  // Setup time intervals, consider abstracting this intialization elsewhere.
   useInterval(() => gridDispatch({ type: 'new-drip' }), pauseDrip ? null : dripDelay);
   useInterval(() => {
     if (time > 0) {
       gcDispatch({ type: 'setTime', payload: time - 1 });
     } 
   }, 1000);
+  useInterval(() => scoreDispatch({ type: 'multiplierTick' }), multiplier > 1 ? 1000 : null);
 
   const submitWord = () => {
     if (word.length < 3) {
@@ -41,7 +45,7 @@ export default function GameBoard({ setGameOver }: IProps) {
     if (isWord) {
       console.log('Its a word.');
       gridDispatch({ type: 'remove-queue' });
-      setScoredWords([word, ...scoredWords]);
+      scoreDispatch({ type: 'updateScore', payload: word });
     } else {
       console.log('Not a word.');
       gridDispatch({ type: 'dequeue-blocks' });
@@ -84,6 +88,7 @@ export default function GameBoard({ setGameOver }: IProps) {
     gcDispatch({ type: 'setDripDelay', payload: dripDelay });
     gcDispatch({ type: 'setTime', payload: time });
     gridDispatch({ type: 'new-board', payload: rows });
+    scoreDispatch({ type: 'setLevelScore', payload: 0 });
   }, [level])
 
   // Update config when world changes.
@@ -96,7 +101,6 @@ export default function GameBoard({ setGameOver }: IProps) {
     // Triggers at 25%, 50%, and 75% time expired.
     const levelTime = worldConfig[world].levels[level].time;
     if ( time !== levelTime && percentExpired(levelTime, time) % 25 === 0 ) {
-      console.log(time);
       gcDispatch({ type: 'setDripDelay', payload: dripDelay * .75 });
     }
     if (time === 0) {
@@ -126,6 +130,16 @@ export default function GameBoard({ setGameOver }: IProps) {
           ) : null
         }
         <button onClick={() => gridDispatch({ type: 'new-drip' })}>Add Row</button>
+        <h5>Game Score: {gameScore}</h5>
+        <h5>Level Score: {levelScore}</h5>
+        {
+          multiplier > 1 ? (
+            <>
+              <p>Multiplier: {multiplier}</p>
+              <Clock time={multiTime} />
+            </>
+          ) : null
+        }
       </div>
       <div className={styles['col-2']}>
         <div className="grid-wrapper">
