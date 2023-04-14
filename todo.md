@@ -1,15 +1,15 @@
 ## TODO
 
 ### Core Functionality
-- Create pointing system.
-  - Multipliers
+- Write pointing logic
+  - Points per letter type (more for q than e)
   - Longer words, don't just score higher but also clear bonus blocks
 - Shuffle letter position for new look.
-- Tweak level configs (timing, drip intensity).
+- Tweak level configs (timing, drip intensity, row num).
 - Redemption, after gameOver if you can x,y,z with the letters remaining you have another chance
 
 ### Tech Infra
-- ...
+- Combine reducers into single reducer/state/store/context.
 
 ### Server Side Features
 - Keep track of spelled words, as percentage of all words spelled.
