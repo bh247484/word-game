@@ -135,7 +135,7 @@ export default function GameBoard({ setGameOver }: IProps) {
         {
           multiplier > 1 ? (
             <>
-              <p>Multiplier: {multiplier}</p>
+              <p>Multiplier: <strong>{multiplier}</strong></p>
               <Clock time={multiTime} />
             </>
           ) : null
