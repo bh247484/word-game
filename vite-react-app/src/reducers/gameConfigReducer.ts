@@ -70,5 +70,5 @@ export function gameConfigInit(): IGameConfig {
     level: 0,
     pauseDrip: false,
     world: 0
-  };;
+  };
 }
