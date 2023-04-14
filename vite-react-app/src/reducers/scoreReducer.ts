@@ -26,7 +26,7 @@ const actionMap = new Map<string, Function>([
             gameScore: newGameScore,
             levelScore: newLevelScore,
             multiplier: multiplier + 1,
-            multiTime: 8,
+            multiTime: 5,
             scoredWords: [word, ...scoredWords],
         };
     }
