@@ -1,12 +1,14 @@
 ## TODO
 
 ### Core Functionality
-- Write pointing logic
-  - Points per letter type (more for q than e)
-  - Longer words, don't just score higher but also clear bonus blocks
+- Separate scored words out per level.
+- Longer words, don't just score higher but also clear bonus blocks
 - Shuffle letter position for new look.
+- Redemption, after gameOver if you can x,y,z with the letters remaining to get another chance
+
+### Core Mechanics Tweaks
 - Tweak level configs (timing, drip intensity, row num).
-- Redemption, after gameOver if you can x,y,z with the letters remaining you have another chance
+- Tweak point scoring, what's incentivized.
 
 ### Tech Infra
 - Combine reducers into single reducer/state/store/context.
@@ -17,6 +19,5 @@
 
 
 ### Bonus Features
-1. Make running tally/list of successfully scored words.
-2. Add font customization/configuration.
-3. Add old terminal style glow to letters.
+1. Add font customization/configuration.
+2. Add old terminal style glow to letters.
