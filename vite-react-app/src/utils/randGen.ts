@@ -50,8 +50,9 @@ export const letterWeights = {
   'q': 2,
 }
 
+export const weightSpread = Object.values(letterWeights).reduce((acc, curr) => acc + curr, 0);
+
 export function randomWeightedLetter(): string {
-  const weightSpread = Object.values(letterWeights).reduce((acc, curr) => acc + curr, 0)
   let randInt = randomInt(1, weightSpread);
   for (const [letter, weight] of Object.entries(letterWeights) ) {
     randInt -= weight;
