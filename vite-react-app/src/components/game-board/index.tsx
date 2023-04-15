@@ -162,7 +162,7 @@ export default function GameBoard({ setGameOver }: IProps) {
           scoredWords.length > 0 ? (
             <ul>
               {
-                scoredWords.map(scoredWord => <li>{scoredWord}</li>)
+                scoredWords.map(({ word, score }) => <li>{word} · {score}</li>)
               }
             </ul>
           ) : null

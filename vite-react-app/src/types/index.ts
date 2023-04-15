@@ -28,5 +28,5 @@ export interface IScoreState {
   levelScore: number;
   multiplier: number;
   multiTime: number;
-  scoredWords: string[];
+  scoredWords: { word: string, score: number }[];
 }
