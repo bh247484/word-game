@@ -6,12 +6,12 @@ export const worldConfig: IWorldConfig[] = [
         levels: [
             {
                 dripDelay: 15 * 1000,
-                time: 10,
+                time: 60,
                 rows: 4
             },
             {
                 dripDelay: 15 * 1000,
-                time: 10,
+                time: 60,
                 rows: 4
             }
         ]
@@ -21,7 +21,7 @@ export const worldConfig: IWorldConfig[] = [
         levels: [
             {
                 dripDelay: 15 * 1000,
-                time: 10,
+                time: 60,
                 rows: 4
             },
             {
@@ -36,12 +36,12 @@ export const worldConfig: IWorldConfig[] = [
         levels: [
             {
                 dripDelay: 15 * 1000,
-                time: 10,
+                time: 60,
                 rows: 4
             },
             {
                 dripDelay: 15 * 1000,
-                time: 10,
+                time: 60,
                 rows: 4
             }
         ]
