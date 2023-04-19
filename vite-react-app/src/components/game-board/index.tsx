@@ -86,6 +86,7 @@ export default function GameBoard({ setGameOver }: IProps) {
     console.log('World: ', world);
     const { dripDelay, time, rows } = worldConfig[world].levels[level];
     gcDispatch({ type: 'setDripDelay', payload: dripDelay });
+    gcDispatch({ type: 'setPauseDrip', payload: false });
     gcDispatch({ type: 'setTime', payload: time });
     gridDispatch({ type: 'new-board', payload: rows });
     scoreDispatch({ type: 'setLevelScore', payload: 0 });
@@ -135,7 +136,7 @@ export default function GameBoard({ setGameOver }: IProps) {
         {
           multiplier > 1 ? (
             <>
-              <p>Multiplier: <strong>{multiplier}</strong></p>
+              <p>Multiplier: <strong>x{multiplier}</strong></p>
               <Clock time={multiTime} />
             </>
           ) : null
