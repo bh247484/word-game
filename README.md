@@ -2,7 +2,7 @@
 
 It's a word game. Think inverted tetris meets realtime scrabble.
 
--- insert video --
+https://github.com/bh247484/word-game/assets/57693937/2e4c5d78-1d69-4a36-a476-017a9ddfd373
 
 Letters appear in a grid. The player uses those letters to spell words. Words be at least 3 letters long and appear in the game's dictionary. See `Architecture` section below to learn more about how the dictionary is constructed/implemented. The words are scored based on letter rarity, word length, and a multiplier which compounds when multiple words are spelled in quick succession (combo style).
 
