@@ -152,7 +152,7 @@ export default function GameBoard({ setGameOver }: IProps) {
             onChange={({ target }) => changeHandler(target.value)}
             onKeyUp={({ key }) => key === 'Enter' ? submitWord() : null}
           />
-          <button onClick={submitWord}>Try</button>
+          <button onClick={submitWord}>Submit</button>
           <Grid
             columns={grid}
           />
