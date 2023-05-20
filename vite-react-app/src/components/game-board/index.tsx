@@ -127,10 +127,12 @@ export default function GameBoard({ setGameOver }: IProps) {
         <Clock time={time} />
         {
           time === 0 ? (
-            <button onClick={() => nextLevel()}>Next Level!</button>
+            <button onClick={() => nextLevel()} style={{ marginBottom: '8px' }}>Next Level!</button>
           ) : null
         }
-        <button onClick={() => gridDispatch({ type: 'new-drip' })}>Add Row</button>
+        <div>
+          <button onClick={() => gridDispatch({ type: 'new-drip' })}>Add Row</button>
+        </div>
         <h5>Game Score: {gameScore}</h5>
         <h5>Level Score: {levelScore}</h5>
         {
