@@ -4,6 +4,8 @@ It's a word game. Think inverted tetris meets realtime scrabble.
 
 https://github.com/bh247484/word-game/assets/57693937/2e4c5d78-1d69-4a36-a476-017a9ddfd373
 
+_Github scales/compresses the video somehow which smears the text. Try right clicking the video and selecting 'Open Video in New Tab', you'll get a sharper image._
+
 Letters appear in a grid. The player uses those letters to spell words. Words be at least 3 letters long and appear in the game's dictionary. See `Architecture` section below to learn more about how the dictionary is constructed/implemented. The words are scored based on letter rarity, word length, and a multiplier which compounds when multiple words are spelled in quick succession (combo style).
 
 New rows of letters are added to the grid at configurable intervals. If the grid grows to be more than 10 rows long, the game is over. Outlast the clock and you move on to the next level, which is progressively more difficult.
