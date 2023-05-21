@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import styles from './app.module.css';
 import { GameBoard } from '@/components';
 
