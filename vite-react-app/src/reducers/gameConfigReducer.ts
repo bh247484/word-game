@@ -13,21 +13,41 @@ export function gameConfigReducer(gameConfig: IGameConfig, { type, payload }: an
 const actionMap = new Map<string, Function>([
 
   [
-    'setPauseDrip',
-    (gameConfig: IGameConfig, val: boolean) => {
-        return {
-            ...gameConfig,
-            pauseDrip: val,
-        };
-    }
-  ],
-
-  [
     'setDripDelay',
     (gameConfig: IGameConfig, delay: number) => {
         return {
             ...gameConfig,
             dripDelay: delay,
+        };
+    }
+  ],
+
+  [
+    'setGameOver',
+    (gameConfig: IGameConfig, gameOver: boolean) => {
+        return {
+            ...gameConfig,
+            gameOver
+        };
+    }
+  ],
+  
+  [
+    'setLevel',
+    (gameConfig: IGameConfig, level: number) => {
+      return {
+        ...gameConfig,
+        level
+      };
+    }
+  ],
+
+  [
+    'setPauseDrip',
+    (gameConfig: IGameConfig, val: boolean) => {
+        return {
+            ...gameConfig,
+            pauseDrip: val,
         };
     }
   ],
@@ -43,16 +63,6 @@ const actionMap = new Map<string, Function>([
   ],
 
   [
-    'setLevel',
-    (gameConfig: IGameConfig, level: number) => {
-        return {
-            ...gameConfig,
-            level
-        };
-    }
-  ],
-
-  [
     'setWorld',
     (gameConfig: IGameConfig, world: number) => {
         return {
@@ -62,11 +72,17 @@ const actionMap = new Map<string, Function>([
     }
   ],
 
+  [
+    'reset',
+    () => gameConfigInit()
+  ],
+
 ]);
 
 export function gameConfigInit(): IGameConfig {
   return {
     ...worldConfig[0].levels[0],
+    gameOver: false,
     level: 0,
     pauseDrip: false,
     world: 0

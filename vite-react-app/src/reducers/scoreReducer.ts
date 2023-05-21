@@ -90,6 +90,11 @@ const actionMap = new Map<string, Function>([
     }
   ],
 
+  [
+    'reset',
+    () => scoreInit()
+  ],
+
 ]);
 
 export function scoreInit(): IScoreState {

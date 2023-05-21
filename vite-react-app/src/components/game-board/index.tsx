@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useState } from 'react';
 import styles from './gameBoard.module.css';
 import { IBlock, IGameConfig, IScoreState } from '@/types';
-import { Clock, Grid } from '@/components';
+import { Clock, EndGame, Grid } from '@/components';
 import { gameConfigInit, gameConfigReducer } from '@/reducers/gameConfigReducer';
 import { gridInit, gridReducer } from '@/reducers/gridReducer';
 import { scoreReducer, scoreInit } from '@/reducers/scoreReducer';
@@ -10,13 +10,9 @@ import binSearch from '@/utils/searchAlgo/binSearch';
 import { percentExpired } from '@/utils/helpers';
 import { worldConfig } from '@/config/worldConfig';
 
-interface IProps {
-  setGameOver: Function;
-}
-
-export default function GameBoard({ setGameOver }: IProps) {
+export default function GameBoard() {
   const [{
-    dripDelay, pauseDrip, time, rows, level, world
+    dripDelay, gameOver, pauseDrip, time, rows, level, world
   }, gcDispatch]: [IGameConfig, Function] = useReducer(gameConfigReducer, null, gameConfigInit);
   const [{
     gameScore, multiplier, multiTime, levelScore, scoredWords
@@ -113,64 +109,76 @@ export default function GameBoard({ setGameOver }: IProps) {
   useEffect(() => {
     if ( grid.some((col) => col.length > 10) ) {
       // Log the longest column length to warn player.
-      setGameOver(true);
+      gcDispatch({ type: 'setGameOver', payload: true });
       gcDispatch({ type: 'setPauseDrip', payload: true });
       console.log('Game Over!');
     }
   }, [grid]);
 
   return (
-    <div className={styles['board-wrapper']}>
-      <div className={styles['col-1']}>
-        <h4>World: {world} - {level}</h4>
-        <h3>Time Remaining</h3>
-        <Clock time={time} />
-        {
-          time === 0 ? (
-            <button onClick={() => nextLevel()} style={{ marginBottom: '8px' }}>Next Level!</button>
-          ) : null
-        }
-        <div>
-          <button onClick={() => gridDispatch({ type: 'new-drip' })}>Add Row</button>
-        </div>
-        <h5>Game Score: {gameScore}</h5>
-        <h5>Level Score: {levelScore}</h5>
-        {
-          multiplier > 1 ? (
-            <>
-              <p>Multiplier: <strong>x{multiplier}</strong></p>
-              <Clock time={multiTime} />
-            </>
-          ) : null
-        }
-      </div>
-      <div className={styles['col-2']}>
-        <div className="grid-wrapper">
-          <h3>Enter Word</h3>
-          <input
-            className={styles.input}
-            type="text"
-            value={word}
-            onChange={({ target }) => changeHandler(target.value)}
-            onKeyUp={({ key }) => key === 'Enter' ? submitWord() : null}
+    <>
+      {
+        gameOver ? (
+          <EndGame
+            gameScore={gameScore}
+            dispatches={[gcDispatch, gridDispatch, scoreDispatch]}
+            scoredWords={scoredWords}
           />
-          <button onClick={submitWord}>Submit</button>
-          <Grid
-            columns={grid}
-          />
-        </div>
-      </div>
-      <div className={styles['col-3']}>
-        {
-          scoredWords.length > 0 ? (
-            <ul>
+        ) : (
+          <div className={styles['board-wrapper']}>
+            <div className={styles['col-1']}>
+              <h4>World: {world} - {level}</h4>
+              <h3>Time Remaining</h3>
+              <Clock time={time} />
               {
-                scoredWords.map(({ word, score }) => <li>{word} · {score}</li>)
+                time === 0 ? (
+                  <button onClick={() => nextLevel()} style={{ marginBottom: '8px' }}>Next Level!</button>
+                ) : null
               }
-            </ul>
-          ) : null
-        }
-      </div>
-    </div>
+              <div>
+                <button onClick={() => gridDispatch({ type: 'new-drip' })}>Add Row</button>
+              </div>
+              <h5>Game Score: {gameScore}</h5>
+              <h5>Level Score: {levelScore}</h5>
+              {
+                multiplier > 1 ? (
+                  <>
+                    <p>Multiplier: <strong>x{multiplier}</strong></p>
+                    <Clock time={multiTime} />
+                  </>
+                ) : null
+              }
+            </div>
+            <div className={styles['col-2']}>
+              <div className="grid-wrapper">
+                <h3>Enter Word</h3>
+                <input
+                  className={styles.input}
+                  type="text"
+                  value={word}
+                  onChange={({ target }) => changeHandler(target.value)}
+                  onKeyUp={({ key }) => key === 'Enter' ? submitWord() : null}
+                />
+                <button onClick={submitWord}>Submit</button>
+                <Grid
+                  columns={grid}
+                />
+              </div>
+            </div>
+            <div className={styles['col-3']}>
+              {
+                scoredWords.length > 0 ? (
+                  <ul>
+                    {
+                      scoredWords.map(({ word, score }) => <li>{word} · {score}</li>)
+                    }
+                  </ul>
+                ) : null
+              }
+            </div>
+          </div>
+        )
+      }
+    </>
   );
 }

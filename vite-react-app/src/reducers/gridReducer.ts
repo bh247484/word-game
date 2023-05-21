@@ -78,6 +78,11 @@ const actionMap = new Map<string, Function>([
     }
   ],
 
+  [
+    'reset',
+    (_grid: IBlock[][], rows: number) => gridInit(rows)
+  ],
+
 ]);
 
 export function gridInit(rows: number): IBlock[][] {

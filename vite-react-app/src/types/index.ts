@@ -5,6 +5,7 @@ export interface IBlock {
 
 export interface IGameConfig {
   dripDelay: number;
+  gameOver: boolean;
   level: number;
   pauseDrip: boolean;
   time: number;

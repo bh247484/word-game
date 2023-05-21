@@ -3,23 +3,9 @@ import styles from './app.module.css';
 import { GameBoard } from '@/components';
 
 function App() {
-  const [gameOver, setGameOver]: [boolean, Function] = useState(false);
-  const [activeComp, setActiveComp]: [string, Function] = useState('game-board')
-
-  useEffect(() => {
-    if (gameOver) setActiveComp('game-over');
-  }, [gameOver])
-
   return (
     <div className={styles.container}>
-      {
-        {
-          'game-board': <GameBoard
-                          setGameOver={setGameOver}
-                        />,
-          'game-over': <h2>GAME OVER</h2>,
-        }[activeComp]
-      }
+      <GameBoard />
     </div>
   );
 }
