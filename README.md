@@ -19,7 +19,7 @@ New rows of letters are added to the grid at configurable intervals. If the grid
 
 The dictionary used to check word validity is built using a combination of a Scrabble dictionary and the Unix "`words`" [dictionary file](https://en.wikipedia.org/wiki/Words_(Unix)).
 
-I combined those line separated dictionary text files into a Json file that sorts and stores words by word length, alphabetizes them, and concatenates the results end to end as one giant string. The C# script I wrote to accomplish this can be found at `/asp-api/dictionary-script/Program.cs` and the Json dictionary itself at `/vite-react-app/src/utils/searchAlgo/dictionary.json`.
+I combined those line separated dictionary text files into a Json file that sorts and stores words by word length, alphabetizes them, and concatenates the results end to end as one giant string. The C# script I wrote to accomplish this can be found at `/dictionary-script/Program.cs` and the Json dictionary itself at `/vite-react-app/src/utils/searchAlgo/dictionary.json`.
 
 The `binSearch.ts` file in the same directory performs the search itself each time a player submits a new word. The search scales well even with around 300,000 words in the dictionary.
 
