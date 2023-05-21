@@ -8,3 +8,6 @@ psql-up:
 
 asp-dev:
 	docker compose up asp-api
+
+rails-dev:
+	docker compose up rails-api

@@ -27,3 +27,12 @@ services:
     ports:
       - '5000:5000'
       - '5001:5001'
+  rails-api:
+    container_name: rails-api
+    build:
+      context: ./rails-api
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./rails-api:/app
+    ports:
+      - '3000:3000'
