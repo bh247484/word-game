@@ -4,7 +4,7 @@ import { GameBoard } from '@/components';
 
 function App() {
   async function testFetch() {
-    const response = await fetch("http://localhost:5000/WordGame");
+    const response = await fetch("http://localhost:3000/api/v1/tests/index");
     console.log(response);
     const data = await response.text();
     console.log(data);
