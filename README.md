@@ -10,8 +10,9 @@ New rows of letters are added to the grid at configurable intervals. If the grid
 
 # How to spin up locally
 1. Have local Docker installation.
-2. Run `make vite-dev` in the root directory after cloning the repo.
-3. Visit `http://localhost:5173/`.
+2. Run `make vite-dev` in the root directory to start the React app at `http://localhost:5173/`.
+3. Then `make psql-up` to start the postgres db.
+4. Then `make rails-dev` to start the rails api backend.
 
 # Architecture
 
