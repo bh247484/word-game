@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { worldConfig } from "@/config/worldConfig";
 import styles from './end-game.module.css';
+import GameReport from './components/game-report';
 
 interface IProps {
   gameScore: number;
@@ -10,9 +11,9 @@ interface IProps {
 
 export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) {
   const [highScores, setHighScores]:[{ name:string, score:number }[], Function] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [phase, setPhase] = useState('report');
-  const [name, setName] = useState('');
+  const [loading, setLoading]: [boolean, Function] = useState(true);
+  const [phase, setPhase]: [string, Function] = useState('report');
+  const [name, setName]: [string, Function] = useState('');
   const [gcDispatch, gridDispatch, scoreDispatch] = dispatches;
 
   async function getHighScores() {
@@ -82,17 +83,11 @@ export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) 
 
   if (phase === 'report') {
     return (
-      <div className={styles['wrapper']}>
-          <h2>Game Over</h2>
-          <h3>Your Score: {gameScore}</h3>
-          <h3>Words Spelled...</h3>
-          {
-            scoredWords.map(({ word }) => (
-              <li>{word}</li>
-            ))
-          }
-          <button onClick={()=> setPhase('high-scores')}>Show High Scores</button>
-      </div>
+      <GameReport
+        gameScore={gameScore}
+        scoredWords={scoredWords}
+        setPhase={setPhase}
+      />
     );
   }
 
