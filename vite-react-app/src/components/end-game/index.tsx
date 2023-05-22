@@ -95,7 +95,7 @@ export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) 
     return (
       <>
         {!loading ? (
-          <div className={styles['wrapper']}>
+          <div className={styles.wrapper}>
             <h4>New High Score!</h4>
             <p>Enter Your Name</p>
             <input
@@ -115,13 +115,27 @@ export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) 
 
   if (phase === 'show-scores') {
     return (
-      <div className={styles['wrapper']}>
+      <div className={styles.wrapper}>
         <h2>High Scores</h2>
-        {
-          highScores.map((entry) => (
-            <li>{entry.name} -- {entry.score}</li>
-          ))
-        }
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              highScores.map((entry) => (
+                <tr>
+                  <td>{entry.name}</td>
+                  <td>{entry.score}</td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+        <br />
         <button onClick={newGame}>Start New Game</button>
       </div>
     );

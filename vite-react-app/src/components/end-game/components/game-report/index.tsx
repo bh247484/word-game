@@ -39,30 +39,51 @@ export default function GameReport({ gameScore, scoredWords, setPhase }: IProps)
     postScoredWords();
   }, [])
 
+  if (loading) {
+    return (
+      <div>
+        <h2>Game Over</h2>
+        <h2>Loading Results...</h2>
+      </div>
+    )
+  }
+
   return (
-    <div className={styles['wrapper']}>
+    <div className={styles.wrapper}>
       <h2>Game Over</h2>
       <h3>Your Score: {gameScore}</h3>
       {!loading && apiWords.length > 0 ? (
         <>
           <h3>Words Spelled...</h3>
-          {
-            apiWords.map(({ word, timesScored }) => (
-              <div>
-                <span>{word} </span>
-                --
+          <div className={styles['table-wrapper']}>
+            <table>
+              <thead>
+                <tr>
+                  <th>Word</th>
+                  <th>Previous Spellings</th>
+                </tr>
+              </thead>
+              <tbody>
                 {
-                  timesScored === 1 ? (
-                    <span> New Word!</span>
-                  ) : (
-                    <span> Times spelled before: {timesScored - 1}.</span>
-                  )
+                  apiWords.map(({ word, timesScored }) => (
+                    <tr>
+                      <td>{word}</td>
+                      {
+                        timesScored === 1 ? (
+                          <td>New Word!</td>
+                        ) : (
+                          <td>{timesScored - 1}</td>
+                        )
+                      }
+                    </tr>
+                  ))
                 }
-              </div>
-            ))
-          }
+              </tbody>
+            </table>
+          </div>
         </>
       ) : null}
+      <br />
       <button onClick={()=> setPhase('high-scores')}>Show High Scores</button>
     </div>
   );

@@ -168,11 +168,24 @@ export default function GameBoard() {
             <div className={styles['col-3']}>
               {
                 scoredWords.length > 0 ? (
-                  <ul>
-                    {
-                      scoredWords.map(({ word, score }) => <li>{word} · {score}</li>)
-                    }
-                  </ul>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Word</th>
+                        <th>Score</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {
+                        scoredWords.map(({ word, score }) => (
+                          <tr>
+                            <td>{word}</td>
+                            <td>{score}</td>
+                          </tr>
+                        ))
+                      }
+                    </tbody>
+                  </table>
                 ) : null
               }
             </div>
