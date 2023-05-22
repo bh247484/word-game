@@ -1,6 +1,6 @@
 # What is it?
 
-It's a word game built with React/Rails/Postgres. Think inverted tetris meets realtime scrabble.
+It's a word game built with React, Ruby on Rails, and Postgres. Think inverted tetris meets realtime scrabble.
 
 https://github.com/bh247484/word-game/assets/57693937/344c955f-69be-49eb-a5ea-2373d3f37012
 
