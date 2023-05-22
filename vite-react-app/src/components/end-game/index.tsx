@@ -140,4 +140,8 @@ export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) 
       </div>
     );
   }
+
+  // This will never happen.
+  // Need to have an unconditional, fallback return to appease Typescript.
+  return <></>;
 }
