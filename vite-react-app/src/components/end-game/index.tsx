@@ -11,8 +11,8 @@ interface IProps {
 export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) {
   const [highScores, setHighScores]:[{ name:string, score:number }[], Function] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [newHighScore, setNewHighScore] = useState(false);
-  const [name, setName] = useState('')
+  const [phase, setPhase] = useState('report');
+  const [name, setName] = useState('');
   const [gcDispatch, gridDispatch, scoreDispatch] = dispatches;
 
   async function getHighScores() {
@@ -20,11 +20,6 @@ export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) 
       const response = await fetch("http://localhost:3000/api/v1/high_scores");
       const scores = await response.json();
       setHighScores(scores);
-
-      // Determine if new high score set.
-      if (scores.length < 10 || scores[scores.length - 1].score < gameScore) {
-        setNewHighScore(true);
-      }
     } catch(error) {
       console.error(error);
     } finally {
@@ -59,7 +54,7 @@ export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) 
     } catch(error) {
       console.error(error);
     } finally {
-      setNewHighScore(false);
+      setPhase('show-scores');
     }
   }
   
@@ -68,45 +63,72 @@ export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) 
     getHighScores();
   }, [])
 
+  // Check if new high score.
+  useEffect(() => {
+    if (phase === 'high-scores' && !loading) {
+      if (highScores?.length < 10 || highScores[highScores.length - 1].score < gameScore) {
+        setPhase('new-high-score')
+      } else {
+        setPhase('show-scores');
+      }
+    }
+  }, [phase, loading])
+
   const newGame = () => {
     gcDispatch({ type: 'reset' });
     gridDispatch({ type: 'reset', payload: worldConfig[0].levels[0].rows });
     scoreDispatch({ type: 'reset' });
   }
 
-  return (
-    <div className={styles['wrapper']}>
-      <h2>Game Over</h2>
-      <h3>Your Score: {gameScore}</h3>
-      {
-        !loading ? (
-          newHighScore ? (
-            <div>
-              <h4>New High Score!</h4>
-              <p>Enter Your Name</p>
-              <input
-                className={styles.input}
-                maxLength={3}
-                type="text"
-                value={name}
-                onChange={({ target }) => setName(target.value.toUpperCase())}
-                onKeyUp={({ key }) => key === 'Enter' ? submitNewScore(name) : null}
-              />
-              <button onClick={() => submitNewScore(name)}>Submit</button>
-            </div>
-          ) : (
-            <>
-              <h2>High Scores</h2>
-              {
-                highScores.map((entry) => (
-                  <li>{entry.name} -- {entry.score}</li>
-                ))
-              }
-            </>
-          )
-        ) : null
-      }
-      <button onClick={newGame}>Start New Game</button>
-    </div>
-  );
+  if (phase === 'report') {
+    return (
+      <div className={styles['wrapper']}>
+          <h2>Game Over</h2>
+          <h3>Your Score: {gameScore}</h3>
+          <h3>Words Spelled...</h3>
+          {
+            scoredWords.map(({ word }) => (
+              <li>{word}</li>
+            ))
+          }
+          <button onClick={()=> setPhase('high-scores')}>Show High Scores</button>
+      </div>
+    );
+  }
+
+  if (phase === 'new-high-score') {
+    return (
+      <>
+        {!loading ? (
+          <div className={styles['wrapper']}>
+            <h4>New High Score!</h4>
+            <p>Enter Your Name</p>
+            <input
+              className={styles.input}
+              maxLength={3}
+              type="text"
+              value={name}
+              onChange={({ target }) => setName(target.value.toUpperCase())}
+              onKeyUp={({ key }) => key === 'Enter' ? submitNewScore(name) : null}
+            />
+            <button onClick={() => submitNewScore(name)}>Submit</button>
+          </div>
+        ) : null}
+      </>
+    );
+  }
+
+  if (phase === 'show-scores') {
+    return (
+      <div className={styles['wrapper']}>
+        <h2>High Scores</h2>
+        {
+          highScores.map((entry) => (
+            <li>{entry.name} -- {entry.score}</li>
+          ))
+        }
+        <button onClick={newGame}>Start New Game</button>
+      </div>
+    );
+  }
 }
