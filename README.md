@@ -36,6 +36,4 @@ The "Game Board" component orchestrates app state, it's located here: `/vite-rea
 
 The dockerized rails app is configured to use a dockerized Postgres db instance and authorized to accept cors requests from the React app frontend.
 
-The backend stores arcade style high scores with the `HighScore` model and `high_scores_controller` api endpoints.
-
-I've also scaffolded an unimplemented `ScoredWord` model to track word score frequency. With enough data I can determine which words are uncommonly scored and awards those words additional points and notify the user if they've scored a word that has never been scored before.
+The backend stores arcade style high scores with the `HighScore` model and `high_scores_controller` api endpoints. The number of times a word is scored/spelled is stored in the `ScoredWord` model. The player is notified if they've spelled new words at the end of the game, or how many times the words they spelled this time have been spelled previously. The `scored_words_controller` contains the api logic for the storage and retrieval of scored/spelled words.
