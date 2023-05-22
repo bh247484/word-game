@@ -51,7 +51,7 @@ export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) 
           "Content-Type": "application/json",
         },
         body: JSON.stringify(newScore),
-      })
+      });
     } catch(error) {
       console.error(error);
     } finally {

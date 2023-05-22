@@ -8,19 +8,57 @@ interface IProps {
 }
 
 export default function GameReport({ gameScore, scoredWords, setPhase }: IProps) {
-  const [apiWords, setApiWords]: [{ word: string, timesSpelled: number }, Function] = useState([]);
+  const [apiWords, setApiWords]: [{ word: string, timesScored: number }[], Function] = useState([]);
+  const [loading, setLoading]: [boolean, Function] = useState(true);
+
   // Post scoredWords to api endpoint.
+  async function postScoredWords() {
+    try {
+      const res = await fetch('http://localhost:3000/api/v1/scored_words', {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(scoredWords.map(({ word }) => word)),
+      });
+
+      // Parse response and set local state.
+      const response = await res.json();
+      setApiWords(response.map(({ word, times_scored: timesScored }: { word: string, times_scored: number }) => {
+        return { word, timesScored };
+      }));
+    } catch(error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    postScoredWords();
+  }, [])
 
   return (
     <div className={styles['wrapper']}>
       <h2>Game Over</h2>
       <h3>Your Score: {gameScore}</h3>
-      {scoredWords.length > 0 ? (
+      {!loading && apiWords.length > 0 ? (
         <>
           <h3>Words Spelled...</h3>
           {
-            scoredWords.map(({ word }) => (
-              <li>{word}</li>
+            apiWords.map(({ word, timesScored }) => (
+              <div>
+                <span>{word} </span>
+                --
+                {
+                  timesScored === 1 ? (
+                    <span> New Word!</span>
+                  ) : (
+                    <span> Times spelled before: {timesScored - 1}.</span>
+                  )
+                }
+              </div>
             ))
           }
         </>
