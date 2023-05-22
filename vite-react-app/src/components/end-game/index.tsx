@@ -16,15 +16,20 @@ export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) 
   const [gcDispatch, gridDispatch, scoreDispatch] = dispatches;
 
   async function getHighScores() {
-    const response = await fetch("http://localhost:3000/api/v1/high_scores");
-    const scores = await response.json();
-    setHighScores(scores);
+    try {
+      const response = await fetch("http://localhost:3000/api/v1/high_scores");
+      const scores = await response.json();
+      setHighScores(scores);
 
-    // Determine if new high score set.
-    if (scores.length < 10 || scores[scores.length - 1].score < gameScore) {
-      setNewHighScore(true);
+      // Determine if new high score set.
+      if (scores.length < 10 || scores[scores.length - 1].score < gameScore) {
+        setNewHighScore(true);
+      }
+    } catch(error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
 
   async function submitNewScore(name: string) {
@@ -42,15 +47,20 @@ export default function EndGame({ gameScore, dispatches, scoredWords }: IProps) 
     setHighScores(updatedScores);
 
     // Update backend db high scores.
-    const response = await fetch('http://localhost:3000/api/v1/high_scores', {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newScore),
-    })
-    setNewHighScore(false);
+    try {
+      const response = await fetch('http://localhost:3000/api/v1/high_scores', {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newScore),
+      })
+    } catch(error) {
+      console.error(error);
+    } finally {
+      setNewHighScore(false);
+    }
   }
   
   // Make API request for High Scores.
