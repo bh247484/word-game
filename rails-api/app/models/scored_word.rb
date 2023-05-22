@@ -1,0 +1,2 @@
+class ScoredWord < ApplicationRecord
+end
