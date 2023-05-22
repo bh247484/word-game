@@ -12,7 +12,7 @@ New rows of letters are added to the grid at configurable intervals. If the grid
 1. Have local Docker installation.
 2. Run `make psql-up` in the root directory to start the postgres db.
 3. Then `make rails-dev` to launch the rails server.
-4. Finally `make vite-dev` to start the React app frontend at `http://localhost:5173/`.
+4. Finally `make vite-dev` to start the React app frontend at `http://localhost:5173`.
 
 # Architecture
 
