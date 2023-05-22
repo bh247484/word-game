@@ -17,16 +17,6 @@ services:
     volumes:
       - ./vite-react-app:/app
       - /app/node_modules
-  asp-api:
-    container_name: asp-api
-    build:
-      context: ./asp-api
-      dockerfile: Dockerfile.dev
-    volumes:
-      - ./asp-api:/app
-    ports:
-      - '5000:5000'
-      - '5001:5001'
   rails-api:
     container_name: rails-api
     build:

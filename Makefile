@@ -6,8 +6,5 @@ vite-dev:
 psql-up:
 	docker compose up db
 
-asp-dev:
-	docker compose up asp-api
-
 rails-dev:
 	docker compose up rails-api
