@@ -31,8 +31,10 @@ State is handled by a few different reducers `gameConfigReducer.ts`, `gridReduce
 
 The "Game Board" component orchestrates app state, it's located here: `/vite-react-app/src/components/game-board/index.tsx`. It contains some interesting lifecycle and timing logic handled by a `useInterval` hook. Credit due to [this article](https://overreacted.io/making-setinterval-declarative-with-react-hooks/) by Dan Abramov on React interval setting.
 
-## Rails Backend
+## Rails/Postgres Backend
 
-Under construction. Now that the core mechanics are implemented I plan to create a db table (and attendant api) to store high scores (arcade style) as well as word score frequency. With enough data I can determine which words are uncommonly scored and awards those words additional points and also notify the user if they've scored a word that has never been scored before.
+The dockerized rails app is configured to use a dockerized Postgres db instance and authorized to accept cors requests from the React app frontend.
 
-The dockerized rails app backend is already configured to use a dockerized Postgres db and authorized to accept cors requests from the React app. Models and controllers/api routes are next.
+The backend stores arcade style high scores with the `HighScore` model and `high_scores_controller` api endpoints.
+
+I've also scaffolded an unimplemented `ScoredWord` model to track word score frequency. With enough data I can determine which words are uncommonly scored and awards those words additional points and notify the user if they've scored a word that has never been scored before.
