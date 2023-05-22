@@ -14,3 +14,6 @@ rails-console:
 
 rails-migrate:
 	docker-compose run rails-api rails db:migrate
+
+rails-shell:
+	docker-compose exec rails-api sh
