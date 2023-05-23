@@ -37,7 +37,7 @@ export default function GameReport({ gameScore, scoredWords, setPhase }: IProps)
 
   useEffect(() => {
     postScoredWords();
-  }, [])
+  }, [scoredWords]);
 
   if (loading) {
     return (
