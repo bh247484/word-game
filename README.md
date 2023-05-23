@@ -2,7 +2,7 @@
 
 It's a word game built with React, Ruby on Rails, and Postgres. Think inverted tetris meets realtime scrabble.
 
-https://github.com/bh247484/word-game/assets/57693937/344c955f-69be-49eb-a5ea-2373d3f37012
+https://github.com/bh247484/word-game/assets/57693937/1a52370d-2c99-41f7-97ac-b15056201a10
 
 Letters appear in a grid. The player uses those letters to spell words. Words must be at least 3 letters long and appear in the game's dictionary. See the `Architecture` section below to learn more about how the dictionary is constructed/implemented. The words are scored based on letter rarity, word length, and a multiplier which compounds when multiple words are spelled in quick succession (combo style).
 
